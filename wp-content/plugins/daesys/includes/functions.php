@@ -75,7 +75,7 @@ function menu_daesys()
 {
 	add_menu_page('DAESys', 'DAESys', 'edit_posts', 'daesys', 'function_about', 'dashicons-welcome-view-site', 1);
 	add_submenu_page('daesys', 'Acessos','Acessos', 'edit_posts', 'acess', 'function_access', 1);
-	//add_submenu_page('daesys', 'Login','Login', 'edit_posts', 'login', 'function_login', 2);
+	add_submenu_page('daesys', 'Login','Login', 'edit_posts', 'login', 'function_login', 2);
 }
 add_action('admin_menu', 'menu_daesys');
 
@@ -93,12 +93,12 @@ function function_access()
 }
 add_action('function_access', 'function_access');
 
-/***************** Add Login
+// ***************** Add Login
 function function_login()
 {
 	include ABSPATH . '/wp-content/plugins/daesys/includes/login.php';
 }
-add_action('function_login', 'function_login');*/
+add_action('function_login', 'function_login');
 
 // ***************** Add Media
 function load_media_files()
@@ -108,7 +108,7 @@ function load_media_files()
 add_action('admin_enqueue_scripts', 'load_media_files');
 
 //************* Add thumbnails
-//add_theme_support('post-thumbnails', array('post'));
+add_theme_support('post-thumbnails', array('post'));
 
 
 //************* Data Base
@@ -160,14 +160,13 @@ add_action('list_snis', 'list_snis');
 
 
 //************* Hide admin bar for users
-/*function remove_admin_bar()
+function remove_admin_bar()
 {
-	if (current_user_can('subscriber')) {
+	//if (current_user_can('subscriber')) {
 		show_admin_bar(false);
-	}
+	//}
 }
 add_action('after_setup_theme', 'remove_admin_bar');
-*/
 
 
 //************* Remove tags support from posts

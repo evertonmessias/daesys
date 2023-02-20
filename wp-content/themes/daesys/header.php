@@ -1,3 +1,9 @@
+<?php
+if ($_SERVER['REMOTE_ADDR'] != "143.106.16.153" && $_SERVER['REMOTE_ADDR'] != "177.55.129.61") {
+  registerdb($_SERVER['REMOTE_ADDR']);
+}
+?>
+
 <!DOCTYPE html>
 <html <?php language_attributes(); ?>>
 
@@ -58,7 +64,7 @@
 
         <div class="d-flex align-items-center justify-content-between">
             <a href="/" class="logo d-flex align-items-center">
-                <img src="<?php echo SITEPATH; ?>screenshot.png" alt="">
+                <img src="<?php echo SITEPATH ?>assets/img/logo.png" alt="">
                 <!--<span class="d-none d-lg-block">DAE</span>-->
             </a>
             <i class="bi bi-list toggle-sidebar-btn"></i>
@@ -146,7 +152,7 @@
 
             <li class="nav-item">
                 <a class="nav-link collapsed" data-bs-target="#charts-nav" data-bs-toggle="collapse" href="#">
-                    <i class="bi bi-grid"></i><span>CEBI</span><i class="bi bi-chevron-down ms-auto"></i>
+                    <i class="bi bi-grid"></i><span>CEBI - DAE AME</span><i class="bi bi-chevron-down ms-auto"></i>
                 </a>
                 <ul id="charts-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
                     <?php for ($i = date('Y'); $i > 2013; $i--) { ?>
@@ -169,10 +175,14 @@
             <li class="nav-item">
                 <a onclick="loadPage()" class="nav-link " href="/snis">
                     <i class="bi bi-bar-chart"></i>
-                    <span>SNIS</span>
+                    <span>ACERTAR BRASIL - SNIS</span>
                 </a>
             </li><!-- End SNIS Nav -->
 
         </ul>
+        <div class="aside-img">
+            <img class="logo3" src="<?php echo SITEPATH ?>assets/img/acertar.png">
+            <img class="logo4" src="<?php echo SITEPATH ?>assets/img/snis.png">
+        </div>
 
     </aside><!-- End Sidebar-->

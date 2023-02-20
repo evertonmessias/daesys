@@ -66,9 +66,3 @@ register_deactivation_hook(__FILE__, 'deactivate');
 // FUNCTIONS ************************************************
 include ABSPATH . '/wp-content/plugins/daesys/includes/functions.php';
 include ABSPATH . '/wp-content/plugins/daesys/includes/oracle.php';
-
-// SETTINGS ************************************************
-include ABSPATH . '/wp-content/plugins/daesys/includes/settings.php';
-
-// POSTMETA ************************************************
-include ABSPATH . '/wp-content/plugins/daesys/includes/post.php';

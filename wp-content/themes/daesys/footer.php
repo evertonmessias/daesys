@@ -1,10 +1,10 @@
   <!-- ======= Footer ======= -->
   <footer id="footer" class="footer">
     <div class="copyright">
-      &copy; Copyright <strong><span>DAESys</span></strong>. All Rights Reserved
+      &copy; Copyright <strong><span>Saneconn</span></strong>. All Rights Reserved
     </div>
     <div class="credits">
-      Designed by <a href="https://b2s.marketing/" target="_blank">B2S Marketing</a>
+      Designed by <a href="https://www.connectamgt.com/" target="_blank">Connecta MGT</a>
     </div>
   </footer><!-- End Footer -->
 
@@ -22,7 +22,7 @@
 
   <!-- Template Main JS File -->
   <script src="<?php echo SITEPATH; ?>assets/js/main.js"></script>
-  <?php //wp_footer(); 
+  <?php //wp_footer(); // hide admin bar
   ?>
   </body>
 

@@ -372,7 +372,7 @@ h6 {
 
 .logo img {
   max-height: 18px;
-  margin: 5px 20px;
+  margin: 5px 40px;
   transform: scale(3)
 }
 
@@ -1254,15 +1254,53 @@ h6 {
 --------------------------------------------------------------*/
 section.home{
   position: relative;
-  min-height: 500px;
+  min-height: 450px;
+  padding-bottom: 50px;
 }
-section.home img{
+
+section.home .logo2 {
   display: block;
   position: relative;
-  width: 50%;
+  width: 40%;
   margin: 0 auto;
-  margin-top: 50px;
+  margin-top: 20px;
+  margin-bottom: 40px;
 }
+
+section.home .logo3 {
+  width: 240px;
+  float: left;
+  margin-left: 65%;
+}
+
+section.home .logo4 {
+  width: 80px;
+  float: right;
+  margin-right: 65%;
+}
+
+aside .aside-img{
+  display: block;
+  position: relative;
+  margin: 0 auto;
+  width: 90%;
+  height: 200px;
+  margin-top: 80%;
+}
+
+aside .aside-img .logo3,aside .aside-img .logo4{
+  display: block;
+  position: relative;
+  margin: 0 auto;
+}
+aside .aside-img .logo3{
+  width: 240px;
+  margin-bottom: 20px;
+}
+aside .aside-img .logo4{
+  width: 80px;
+}
+
 .btn-chart{
   margin: 0;padding: 0;
   width: 70px;
@@ -1287,4 +1325,22 @@ section.home img{
   left: 49%;
   top: 36%;
   z-index: 3000;
+}
+
+@media(max-width:900px) {
+  section.home .logo2,
+  section.home .logo3,
+  section.home .logo4
+  {
+    width: 100%;
+    float: none;
+    margin: 0;
+  }
+  section.home .logo4{
+    display: block;
+    position: relative;
+    margin: 0 auto;
+    width: 100px;
+  }
+
 }
