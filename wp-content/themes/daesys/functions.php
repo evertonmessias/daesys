@@ -46,5 +46,6 @@ add_action('login_enqueue_scripts', function () {
             display: none !important;
         }
     </style>
+    <h1>DAESys</h1>
 <?php
 });
