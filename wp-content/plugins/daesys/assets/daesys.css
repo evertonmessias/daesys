@@ -1,0 +1,74 @@
+#postdivrich.postarea, .page-title-action{
+    display: none;
+}
+.settings-daesys, .about-daesys{
+    display: block;
+    position: relative;
+    margin: 0 auto;
+    width: 99%;
+    min-height: 200px;
+    border: 1px solid #888;
+    margin-top: 15px;
+    margin-left: -5px;
+    padding: 20px;
+}
+.settings-daesys label{
+    display: block !important;
+}
+.settings-daesys .wp-editor-wrap{
+    width: 100%;
+}
+
+.settings-daesys .title, .about-daesys .title{
+    color: #000;
+}
+.settings-daesys hr, .about-daesys hr{
+    background-color: #bbb !important;
+    border: 1px solid #bbb !important;
+}
+.settings-daesys table{
+    width: 65em;
+    border-spacing: 0;
+}
+
+.settings-daesys table img{
+    height: 100%;   
+}
+
+.settings-daesys input[type=number]{
+    width: 7em;
+    font-weight: 400;
+}
+.settings-daesys input[type=email],.settings-daesys input[type=text]{
+    width: 40em;
+    font-weight: 400;
+}
+.settings-daesys textarea{
+    width: 100%;
+    font-weight: 400;
+    margin-bottom: -3px;
+}
+
+.settings-daesys table td:nth-child(1),.settings-daesys table td:nth-child(3){
+    width: 4em;
+}
+
+.settings-daesys table td:nth-child(1) div{
+    text-align: center !important;
+    font-weight: 600;
+}
+.settings-daesys table td:nth-child(2){
+    width: 40em;   
+}
+.settings-daesys table td:nth-child(2) input{
+    width: 100%;
+}
+
+table#access th{
+    background-color: #1D2327;
+    color: #fff;
+}
+
+.postmeta-post{
+    width: 100%;
+}
