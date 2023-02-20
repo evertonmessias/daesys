@@ -78,7 +78,7 @@
 
   let pageurl = window.location.href.split('/');
   var er = /ano\d{4}/ig;
-  if(er.test(pageurl[3])){
+  if(er.test(pageurl[3]) || pageurl[3] == 'todos'){
     document.querySelector("#charts-nav").classList.add('show');
     document.querySelector("#charts-nav ."+pageurl[3]).classList.add('active');
   }

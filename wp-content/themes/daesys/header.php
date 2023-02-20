@@ -33,7 +33,11 @@
 
     <script>
         function loadPage() {
-            window.scrollTo(0,0);
+            window.scrollTo({
+                top: 0,
+                left: 0,
+                behavior: 'instant',
+            });
             document.querySelector('#loader').style.display = 'block';
         }
     </script>
@@ -135,30 +139,30 @@
 
             <li class="nav-item">
                 <a onclick="loadPage()" class="nav-link " href="/">
-                    <i class="bi bi-grid"></i>
-                    <span>CEBI <?php echo date('Y'); ?></span>
-                </a>
-            </li>
-
-            <li class="nav-item">
-                <a onclick="loadPage()" class="nav-link " href="/todos">
-                    <i class="bi bi-grid"></i>
-                    <span>CEBI (comparativo anual)</span>
+                    <i class="bi bi-house"></i>
+                    <span>Home</span>
                 </a>
             </li>
 
             <li class="nav-item">
                 <a class="nav-link collapsed" data-bs-target="#charts-nav" data-bs-toggle="collapse" href="#">
-                    <i class="bi bi-bar-chart"></i><span>CEBI (anos anteriores)</span><i class="bi bi-chevron-down ms-auto"></i>
+                    <i class="bi bi-grid"></i><span>CEBI</span><i class="bi bi-chevron-down ms-auto"></i>
                 </a>
                 <ul id="charts-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
-                    <?php for ($i = (date('Y') - 1); $i > 2013; $i--) { ?>
+                    <?php for ($i = date('Y'); $i > 2013; $i--) { ?>
                         <li>
                             <a onclick="loadPage()" class="ano<?php echo $i; ?>" href="/ano<?php echo $i; ?>">
                                 <i class="bi bi-circle"></i><span><?php echo $i; ?></span>
                             </a>
                         </li>
                     <?php } ?>
+
+                    <li class="nav-item">
+                        <a onclick="loadPage()" class="nav-link " href="/todos">
+                            <i class="bi bi-circle"></i><span>Todos</span>
+                        </a>
+                    </li>
+
                 </ul>
             </li><!-- End Charts Nav -->
 
