@@ -33,6 +33,7 @@
 
     <script>
         function loadPage() {
+            window.scrollTo(0,0);
             document.querySelector('#loader').style.display = 'block';
         }
     </script>
