@@ -1327,6 +1327,14 @@ aside .aside-img .logo4{
   z-index: 3000;
 }
 
+.title-card-snis{
+  background:rgba(1, 41, 112, 0.1);
+  padding: 10px;
+  text-align: center;
+  font-weight: 700;
+  color: #012970;
+}
+
 @media(max-width:900px) {
   section.home .logo2,
   section.home .logo3,
