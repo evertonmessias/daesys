@@ -74,8 +74,8 @@ add_action('admin_menu', 'wd_admin_menu_rename');
 function menu_daesys()
 {
 	add_menu_page('DAESys', 'DAESys', 'edit_posts', 'daesys', 'function_about', 'dashicons-welcome-view-site', 1);
-	add_submenu_page('daesys', 'Acessos','Acessos', 'edit_posts', 'acess', 'function_access', 1);
-	add_submenu_page('daesys', 'Login','Login', 'edit_posts', 'login', 'function_login', 2);
+	add_submenu_page('daesys', 'Acessos', 'Acessos', 'edit_posts', 'acess', 'function_access', 1);
+	add_submenu_page('daesys', 'Login', 'Login', 'edit_posts', 'login', 'function_login', 2);
 }
 add_action('admin_menu', 'menu_daesys');
 
@@ -125,11 +125,11 @@ function registerdb($ip) // register in db
 }
 add_action('registerdb', 'registerdb');
 
-function registerdb2($user,$ip) // register in db
-{	
+function registerdb2($user, $ip) // register in db
+{
 	global $wpdb;
 	$table_name = $wpdb->prefix . 'login';
-	$resp = $wpdb->insert($table_name, array('user' => $user,'ipadress' => $ip, 'time' => current_time('mysql')));
+	$resp = $wpdb->insert($table_name, array('user' => $user, 'ipadress' => $ip, 'time' => current_time('mysql')));
 	if ($resp == 1) {
 		return "register db: SUCESS";
 	} else {
@@ -162,9 +162,7 @@ add_action('list_snis', 'list_snis');
 //************* Hide admin bar for users
 function remove_admin_bar()
 {
-	//if (current_user_can('subscriber')) {
-		show_admin_bar(false);
-	//}
+	show_admin_bar(false);
 }
 add_action('after_setup_theme', 'remove_admin_bar');
 
