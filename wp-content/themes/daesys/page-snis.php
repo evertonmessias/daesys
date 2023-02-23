@@ -573,7 +573,7 @@ foreach ($snis as $val) {
             <h3 class="title-card-snis">Universalização:</h3>
           <?php } elseif ($x == 3) { ?>
             <br>
-            <h3 class="title-card-snis">Qualidade::</h3>
+            <h3 class="title-card-snis">Qualidade:</h3>
           <?php } elseif ($x == 5) { ?>
             <br>
             <h3 class="title-card-snis">Eficiência:</h3>
