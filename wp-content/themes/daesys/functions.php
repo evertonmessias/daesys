@@ -55,10 +55,10 @@ add_action('login_enqueue_scripts', function () {
 
         .login form input {
             border: none !important;
-            min-height: 30px !important;            
+            min-height: 30px !important;
         }
 
-        .login form button{
+        .login form button {
             min-height: 30px !important;
         }
 
@@ -73,7 +73,7 @@ add_action('login_enqueue_scripts', function () {
         }
 
         #user_pass {
-            margin-bottom: 40px;            
+            margin-bottom: 40px;
         }
 
         .login .button-primary {
@@ -138,23 +138,25 @@ add_action('login_enqueue_scripts', function () {
         }
 
         @media(max-width:900px) {
-            #login{
-                top:100px !important;
+            #login {
+                top: 100px !important;
             }
 
-            #login,.login form,
+            #login,
+            .login form,
             #login-img {
                 padding: 20px !important;
                 left: 0 !important;
                 position: relative !important;
                 width: 100% !important;
             }
+
             p.galogin {
-            transform: scale(0.8);
-            position: absolute;
-            right: -15px;
-            bottom: 15px;
-        }
+                transform: scale(0.8);
+                position: absolute;
+                right: -15px;
+                bottom: 15px;
+            }
         }
     </style>
 
@@ -169,8 +171,61 @@ add_action('login_enqueue_scripts', function () {
 });
 
 
-function month_data($ano,$tipo){
+//SOMA VALORES POR MES
+function month_data($ano, $tipo)
+{
     $sql = "SELECT EXTRACT(month from DATA), SUM(VALOR) FROM MOVIMENTO_EMPENHOS_RECEITAS WHERE (TIPO LIKE '$tipo') AND EXERCICIO LIKE '$ano' AND DATA BETWEEN TO_DATE('01-JAN-$ano','DD-MON-YYYY') AND TO_DATE('31-DEC-$ano','DD-MON-YYYY') GROUP BY EXTRACT(month from DATA) ORDER BY 1;";
-    return  DAE::oracle($sql);
+    $query =  DAE::oracle($sql);
+
+    preg_match_all('/\d+/', $query, $match);
+
+    $array_results = [];
+
+    foreach ($match[0] as $val) {
+        if ($val > 1000) {
+            $array_results[] = number_format($val, 2, '.', '');
+        }
+    }
+
+    return $array_results;
 }
-add_action('month_data','month_data');
+add_action('month_data', 'month_data');
+
+//SOMA VALORES POR ITEM
+function item_data($ano, $tipo, $max)
+{
+    $sql = "SELECT NOME_DETALHE, SUM(VALOR) FROM MOVIMENTO_EMPENHOS_RECEITAS WHERE (TIPO LIKE '$tipo') AND EXERCICIO LIKE '$ano' AND DATA BETWEEN TO_DATE('01-JAN-$ano','DD-MON-YYYY') AND TO_DATE('31-DEC-$ano','DD-MON-YYYY') GROUP BY NOME_DETALHE ORDER BY 2 DESC;";
+    $query =  DAE::oracle($sql);
+
+    $string_data = "";
+    $string_itens = "";
+
+    preg_match_all('/<td>(.*?)<\/td>/s', $query, $match1);
+
+    $content1 = preg_replace("/\r|\n/", "", str_replace(',', '', str_replace('</td>', '', str_replace('<td>', '', $match1[0]))));
+
+    $x = 1;
+    foreach ($content1 as $val) {
+        if ($x <= $max) {
+            $string_itens .= '"' . $val . '",';
+        }
+        $x++;
+    }
+
+    $y = 1;
+    preg_match_all('/\d{3,}+/', $query, $match2);
+    foreach ($match2[0] as $val) {
+        if ($y <= $max) {
+            $string_data .= $val . ',';
+        }
+        $y++;
+    }
+
+    $item_data = array(
+        'iten' => $string_itens,
+        'data' => $string_data
+    );
+
+    return $item_data;
+}
+add_action('item_data', 'item_data');

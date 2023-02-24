@@ -5,127 +5,50 @@
 /* PHP */
 
 preg_match_all('/\d+/', $post->post_name, $yn);
-
 $ano = $yn[0][0];
 
-$mes = ["janeiro", "fevereiro", "março", "abril", "maio", "junho", "julho", "agosto", "setembro", "outubro", "novembro", "dezembro"];
+$array_meses = ["janeiro", "fevereiro", "março", "abril", "maio", "junho", "julho", "agosto", "setembro", "outubro", "novembro", "dezembro"];
 $cor1 = "'rgb(0,0,255)','rgb(30,144,255)','rgb(0,191,255)','rgb(135,206,250)','rgb(64,224,208)','rgb(72,209,204)','rgb(32,178,170)','rgb(0,255,127)','rgb(152,251,152)','rgb(144,238,144)','rgb(0,100,0)','rgb(0,128,0)','rgb(34,139,34)','rgb(186,85,211)','rgb(128,0,128)','rgb(139,0,139)','rgb(255,127,80)','rgb(255,99,71)','rgb(255,0,0)'";
 $cor2 = "'rgb(255,0,0)','rgb(255,99,71)','rgb(255,127,80)','rgb(139,0,139)','rgb(128,0,128)','rgb(186,85,211)','rgb(34,139,34)','rgb(0,128,0)','rgb(0,100,0)','rgb(144,238,144)','rgb(152,251,152)','rgb(0,255,127)','rgb(32,178,170)','rgb(72,209,204)','rgb(64,224,208)','rgb(135,206,250)','rgb(0,191,255)','rgb(30,144,255)','rgb(0,0,255)'";
-$bar_max = 12;
 
-//Linhas, Barras, Card e Pizza (RECEITAS) *******************************************
+//Linhas, BarrasV, Card e Pizza (RECEITA/PAGAMENTO) *******************************************
 
-$sql1 = "SELECT EXTRACT(month from DATA), SUM(VALOR) FROM MOVIMENTO_EMPENHOS_RECEITAS WHERE (TIPO LIKE 'RECEITA') AND EXERCICIO LIKE '$ano' AND DATA BETWEEN TO_DATE('01-JAN-$ano','DD-MON-YYYY') AND TO_DATE('31-DEC-$ano','DD-MON-YYYY') GROUP BY EXTRACT(month from DATA) ORDER BY 1;";
-$receitas =  DAE::oracle($sql1);
+$receitas = month_data($ano, 'RECEITA');
+$pagamentos = month_data($ano, 'PAGAMENTO');
 
-preg_match_all('/\d+/', $receitas, $match1);
-
-$array_receitas = [];
 $sum_receitas = 0;
-$string_receitas_meses = "";
+$sum_pagamentos = 0;
 
-if (sizeof($match1[0]) > 12) {
-  $total = 12;
-} else {
-  $total = sizeof($match1[0]);
-}
-
-for ($i = 0; $i < $total; $i++) {
-  $string_receitas_meses .= '"' . $mes[$i] . '",';
-}
-
-foreach ($match1[0] as $val) {
-  if ($val > 1000) {
-    $sum_receitas += $val;
-    $array_receitas[] = number_format($val, 2, '.', '');
-  }
+for ($i = 0; $i < sizeof($receitas); $i++) {
+  $sum_receitas += $receitas[$i];
+  $sum_pagamentos += $pagamentos[$i];
+  $string_meses .= '"' . $array_meses[$i] . '",';
 }
 
 $sum_receitasF = number_format($sum_receitas, 2, ',', '.');
-$string_receitas = implode(",", $array_receitas);
-
-//Linhas, Barras, Card e Pizza (PAGAMENTOS) *************************************
-
-$sql2 = "SELECT EXTRACT(month from DATA), SUM(VALOR) FROM MOVIMENTO_EMPENHOS_RECEITAS WHERE (TIPO LIKE 'PAGAMENTO') AND EXERCICIO LIKE '$ano' AND DATA BETWEEN TO_DATE('01-JAN-$ano','DD-MON-YYYY') AND TO_DATE('31-DEC-$ano','DD-MON-YYYY') GROUP BY EXTRACT(month from DATA) ORDER BY 1;";
-$pagamentos =  DAE::oracle($sql2);
-
-preg_match_all('/\d+/', $pagamentos, $match2);
-
-$array_pagamentos = [];
-$sum_pagamentos = 0;
-
-foreach ($match2[0] as $val) {
-  if ($val > 1000) {
-    $sum_pagamentos += $val;
-    $array_pagamentos[] = number_format($val, 2, '.', '');
-  }
-}
+$string_receitas = implode(",", $receitas);
 
 $sum_pagamentosF = number_format($sum_pagamentos, 2, ',', '.');
-$string_pagamentos = implode(",", $array_pagamentos);
+$string_pagamentos = implode(",", $pagamentos);
 
-//Barras (RECEITAS) *************************************************************************
 
-$sql3 = "SELECT NOME_DETALHE, SUM(VALOR) FROM MOVIMENTO_EMPENHOS_RECEITAS WHERE (TIPO LIKE 'RECEITA') AND EXERCICIO LIKE '$ano' AND DATA BETWEEN TO_DATE('01-JAN-$ano','DD-MON-YYYY') AND TO_DATE('31-DEC-$ano','DD-MON-YYYY') GROUP BY NOME_DETALHE ORDER BY 2 DESC;";
-$receitas2 =  DAE::oracle($sql3);
+//BarrasH (RECEITAS/PAGAMENTOS) *************************************************************************
 
-$string_receitas2 = "";
-$string_movimentos_receita = "";
+$barras_receitas = item_data($ano, 'RECEITA', 10);
 
-preg_match_all('/<td>(.*?)<\/td>/s', $receitas2, $match3);
+$string_movimentos_receitas = $barras_receitas['iten'];
 
-$content1 = preg_replace("/\r|\n/", "", str_replace(',', '', str_replace('</td>', '', str_replace('<td>', '', $match3[0]))));
+$string_receitas2 = $barras_receitas['data'];
 
-$x = 1;
-foreach ($content1 as $val) {
-  if ($x <= $bar_max) {
-    $string_movimentos_receita .= '"' . $val . '",';
-  }
-  $x++;
-}
+$barras_pagamentos = item_data($ano, 'PAGAMENTO', 15);
 
-$y = 1;
-preg_match_all('/\d{3,}+/', $receitas2, $match4);
-foreach ($match4[0] as $val) {
-  if ($y <= $bar_max) {
-    $string_receitas2 .= $val . ',';
-  }
-  $y++;
-}
+$string_movimentos_pagamentos = $barras_pagamentos['iten'];
 
-//Barras (PAGEMENTOS) *************************************************************************
-
-$sql4 = "SELECT NOME_DETALHE, SUM(VALOR) FROM MOVIMENTO_EMPENHOS_RECEITAS WHERE (TIPO LIKE 'PAGAMENTO') AND EXERCICIO LIKE '$ano' AND DATA BETWEEN TO_DATE('01-JAN-$ano','DD-MON-YYYY') AND TO_DATE('31-DEC-$ano','DD-MON-YYYY') GROUP BY NOME_DETALHE ORDER BY 2 DESC;";
-$pagamentos2 =  DAE::oracle($sql4);
-
-$string_pagamentos2 = "";
-$string_movimentos_pagamentos = "";
-
-preg_match_all('/<td>(.*?)<\/td>/s', $pagamentos2, $match5);
-
-$content2 = preg_replace("/\r|\n/", "", str_replace(',', '', str_replace('</td>', '', str_replace('<td>', '', $match5[0]))));
-
-$z = 1;
-foreach ($content2 as $val) {
-  if ($z <= $bar_max) {
-    $string_movimentos_pagamentos .= '"' . $val . '",';
-  }
-  $z++;
-}
-
-$w = 1;
-preg_match_all('/\d{3,}+/', $pagamentos2, $match6);
-foreach ($match6[0] as $val) {
-  if ($w <= $bar_max) {
-    $string_pagamentos2 .= $val . ',';
-  }
-  $w++;
-}
+$string_pagamentos2 = $barras_pagamentos['data'];
 
 ?>
 
 <script>
-
   /* JS */
 
   var formatter = new Intl.NumberFormat('pt-br', {
@@ -198,7 +121,7 @@ foreach ($match6[0] as $val) {
         width: 2
       },
       xaxis: {
-        categories: [<?php echo $string_receitas_meses; ?>]
+        categories: [<?php echo $string_meses; ?>]
       },
       tooltip: {
         y: {
@@ -239,7 +162,7 @@ foreach ($match6[0] as $val) {
         colors: ['transparent']
       },
       xaxis: {
-        categories: [<?php echo $string_receitas_meses; ?>],
+        categories: [<?php echo $string_meses; ?>],
       },
       yaxis: {
         title: {
@@ -284,7 +207,7 @@ foreach ($match6[0] as $val) {
       },
       colors: ['#2eca6a'],
       xaxis: {
-        categories: [<?php echo $string_movimentos_receita; ?>],
+        categories: [<?php echo $string_movimentos_receitas; ?>],
       },
       tooltip: {
         y: {
