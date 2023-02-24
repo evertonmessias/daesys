@@ -2,6 +2,8 @@
 
 <?php
 
+/* PHP */
+
 preg_match_all('/\d+/', $post->post_name, $yn);
 
 $ano = $yn[0][0];
@@ -123,6 +125,9 @@ foreach ($match6[0] as $val) {
 ?>
 
 <script>
+
+  /* JS */
+
   var formatter = new Intl.NumberFormat('pt-br', {
     style: 'currency',
     currency: 'BRL',
@@ -325,6 +330,8 @@ foreach ($match6[0] as $val) {
 
   }
 </script>
+
+<!-- HTML -->
 
 <main id="main" class="main">
 
