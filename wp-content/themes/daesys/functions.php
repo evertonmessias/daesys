@@ -167,3 +167,10 @@ add_action('login_enqueue_scripts', function () {
 
 <?php
 });
+
+
+function month_data($ano,$tipo){
+    $sql = "SELECT EXTRACT(month from DATA), SUM(VALOR) FROM MOVIMENTO_EMPENHOS_RECEITAS WHERE (TIPO LIKE '$tipo') AND EXERCICIO LIKE '$ano' AND DATA BETWEEN TO_DATE('01-JAN-$ano','DD-MON-YYYY') AND TO_DATE('31-DEC-$ano','DD-MON-YYYY') GROUP BY EXTRACT(month from DATA) ORDER BY 1;";
+    return  DAE::oracle($sql);
+}
+add_action('month_data','month_data');
