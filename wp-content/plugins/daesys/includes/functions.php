@@ -150,13 +150,13 @@ function list_access($table) // list access
 add_action('list_access', 'list_access');
 
 
-function list_snis($sql) // list snis
+function list_data($sql) // list data base
 {
 	global $wpdb;
 	$results = $wpdb->get_results($sql);
 	return $results;
 }
-add_action('list_snis', 'list_snis');
+add_action('list_data', 'list_data');
 
 
 //************* Hide admin bar for users

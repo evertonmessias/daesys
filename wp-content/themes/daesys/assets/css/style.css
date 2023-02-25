@@ -1335,6 +1335,12 @@ aside .aside-img .logo4{
   color: #012970;
 }
 
+.btn-update{
+  padding: 3px !important;
+  width: 125px;
+  transform: scale(0.8);  
+}
+
 @media(max-width:900px) {
   section.home .logo2,
   section.home .logo3,

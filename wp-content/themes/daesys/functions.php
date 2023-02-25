@@ -170,7 +170,7 @@ add_action('login_enqueue_scripts', function () {
 <?php
 });
 
-
+/*
 //SOMA VALORES POR MES
 function month_data($ano, $tipo)
 {
@@ -229,3 +229,4 @@ function item_data($ano, $tipo, $max)
     return $item_data;
 }
 add_action('item_data', 'item_data');
+*/

@@ -44,4 +44,19 @@ class DAE
 
         return $strings_table;
     }
+
+    public static function oracle2mysql($sql){
+        preg_match_all('/<tr>(.*?)<\/tr>/s', utf8_encode(self::connect($sql)), $content);
+        $results_table = $content[0];
+        $thead = array_shift($results_table);
+        $tbody = "";
+        foreach ($results_table as $rt) {
+            if ($rt != $thead) {
+                $tbody .= $rt;
+            }
+        }
+        $content1 =  str_replace('</td></tr>','"),',str_replace('</td><td>','","',str_replace('<tr><td>','(default,"',preg_replace('/ ¿| align="right"|( ){2,}|\r|\n|\t/', '', $tbody))));
+        
+        return rtrim($content1,',');
+    }
 }
