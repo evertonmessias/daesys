@@ -455,7 +455,7 @@ foreach ($list_mov_pagamentos as $val) {
         <div class="row">
             <div class="col-lg-12">
                 <form method="POST">
-                    <input type="bytton" value="Atualizar Tudo" id="btn-update" class="btn btn-secondary btn-update">
+                    <input type="bytton" value="Sincronizar" id="btn-update" class="btn btn-secondary btn-update">
                 </form>
             </div>
         </div>

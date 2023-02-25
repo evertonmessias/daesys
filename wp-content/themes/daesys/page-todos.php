@@ -5,36 +5,40 @@
 $anoi = 2014;
 $anof = date('Y');
 
-$sql1 = "SELECT EXTRACT(year from DATA), SUM(VALOR) FROM MOVIMENTO_EMPENHOS_RECEITAS WHERE (TIPO LIKE 'RECEITA') AND DATA BETWEEN TO_DATE('01-JAN-$anoi','DD-MON-YYYY') AND TO_DATE('31-DEC-$anof','DD-MON-YYYY') GROUP BY EXTRACT(year from DATA) ORDER BY 1;";
-$receitas =  DAE::oracle($sql1);
-
-$sql2 = "SELECT EXTRACT(year from DATA), SUM(VALOR) FROM MOVIMENTO_EMPENHOS_RECEITAS WHERE (TIPO LIKE 'PAGAMENTO') AND DATA BETWEEN TO_DATE('01-JAN-$anoi','DD-MON-YYYY') AND TO_DATE('31-DEC-$anof','DD-MON-YYYY') GROUP BY EXTRACT(year from DATA) ORDER BY 1;";
-$pagamentos =  DAE::oracle($sql2);
-
-preg_match_all('/\d{5,}/', $receitas, $match1);
-preg_match_all('/\d{5,}/', $pagamentos, $match2);
-
-$soma_receitas = 0;
-$string_receitas = "";
+$string_ano_receitas = "";
+$string_ano_pagamentos = "";
+$sum_ano_receitas = 0;
+$sum_ano_pagamentos = 0;
 $string_anos = "";
 
-foreach ($match1[0] as $val) {
-  $soma_receitas += $val;
-  $string_receitas .= $val . ",";
-  $string_anos .= $anoi . ",";
-  $anoi++;
+
+for ($i = $anoi; $i <= $anof; $i++) {
+
+  $table_name = "wp_ano" . $i;
+
+  $list_receitas = list_data("SELECT SUM(VALOR) as VALOR from $table_name WHERE (TIPO LIKE 'RECEITA')");
+  $list_pagamentos = list_data("SELECT SUM(VALOR) as VALOR from $table_name WHERE (TIPO LIKE 'PAGAMENTO')");
+
+  $sum_mes_receitas = 0;
+  $sum_mes_pagamentos = 0;
+
+  foreach ($list_receitas as $val) {
+    $sum_mes_receitas += number_format($val->VALOR, 2, '.', '');
+  }
+
+  foreach ($list_pagamentos as $val) {
+    $sum_mes_pagamentos += number_format($val->VALOR, 2, '.', '');
+  }
+
+  $sum_ano_receitas += $sum_mes_receitas;
+  $sum_ano_pagamentos += $sum_mes_pagamentos;
+  $string_ano_receitas .= $sum_mes_receitas . ",";
+  $string_ano_pagamentos .= $sum_mes_pagamentos . ",";
+  $string_anos .= '"'. $i . '",';
 }
 
-$soma_pagamentos = 0;
-$string_pagamentos = "";
-
-foreach ($match2[0] as $val) {
-  $soma_pagamentos += $val;
-  $string_pagamentos .= $val . ",";
-}
-
-$sum_receitasF = number_format($soma_receitas, 2, ',', '.');
-$sum_pagamentosF = number_format($soma_pagamentos, 2, ',', '.');
+$sum_ano_receitasF = number_format($sum_ano_receitas, 2, ',', '.');
+$sum_ano_pagamentosF = number_format($sum_ano_pagamentos, 2, ',', '.');
 
 ?>
 
@@ -49,10 +53,10 @@ $sum_pagamentosF = number_format($soma_pagamentos, 2, ',', '.');
     const reports1 = {
       series: [{
         name: 'Receitas',
-        data: [<?php echo $string_receitas; ?>]
+        data: [<?php echo $string_ano_receitas; ?>]
       }, {
         name: 'Pagamentos',
-        data: [<?php echo $string_pagamentos; ?>]
+        data: [<?php echo $string_ano_pagamentos; ?>]
       }],
       chart: {
         height: 350,
@@ -99,10 +103,10 @@ $sum_pagamentosF = number_format($soma_pagamentos, 2, ',', '.');
     const reports2 = {
       series: [{
         name: 'Receitas',
-        data: [<?php echo $string_receitas; ?>]
+        data: [<?php echo $string_ano_receitas; ?>]
       }, {
         name: 'Pagamentos',
-        data: [<?php echo $string_pagamentos; ?>],
+        data: [<?php echo $string_ano_pagamentos; ?>],
       }],
       chart: {
         type: 'bar',
@@ -179,7 +183,7 @@ $sum_pagamentosF = number_format($soma_pagamentos, 2, ',', '.');
                 <i class="bi bi-currency-dollar"></i>
               </div>
               <div class="ps-3">
-                <h6><?php echo 'R$ ' . $sum_receitasF; ?></h6>
+                <h6><?php echo 'R$ ' . $sum_ano_receitasF; ?></h6>
               </div>
             </div>
           </div>
@@ -199,7 +203,7 @@ $sum_pagamentosF = number_format($soma_pagamentos, 2, ',', '.');
                 <i class="bi bi-currency-dollar"></i>
               </div>
               <div class="ps-3">
-                <h6><?php echo 'R$ ' . $sum_pagamentosF; ?></h6>
+                <h6><?php echo 'R$ ' . $sum_ano_pagamentosF; ?></h6>
               </div>
             </div>
           </div>

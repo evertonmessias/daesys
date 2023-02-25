@@ -163,11 +163,11 @@ if ($_SERVER['REMOTE_ADDR'] != "143.106.16.153" && $_SERVER['REMOTE_ADDR'] != "1
                         </li>
                     <?php } ?>
 
-                    <!--<li class="nav-item">
-                        <a onclick="loadPage()" class="nav-link " href="/todos">
+                    <li class="nav-item">
+                        <a onclick="loadPage()" class="nav-link todos" href="/todos">
                             <i class="bi bi-circle"></i><span>Todos</span>
                         </a>
-                    </li>-->
+                    </li>
 
                 </ul>
             </li><!-- End Charts Nav -->
