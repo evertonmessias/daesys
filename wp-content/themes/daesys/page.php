@@ -28,17 +28,19 @@ $array_meses = [
 ];
 
 global $wpdb;
-$charset_collate = $wpdb->get_charset_collate();
 $table_name = $wpdb->prefix . 'ano' . $ano;
-$sql = "CREATE TABLE $table_name (`ID` INT PRIMARY KEY NOT NULL AUTO_INCREMENT,`DATA_MES` TEXT,`NOME_DETALHE` TEXT,`VALOR` TEXT,`TIPO` TEXT,`EXERCICIO` TEXT)$charset_collate;";
+
 if ($wpdb->get_var("SHOW TABLES LIKE '$table_name'") != $table_name) {
-    require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
-    dbDelta($sql);
+    $charset_collate = $wpdb->get_charset_collate();
+    $sql = "CREATE TABLE $table_name (`ID` INT PRIMARY KEY NOT NULL AUTO_INCREMENT,`DATA_MES` TEXT,`NOME_DETALHE` TEXT,`VALOR` TEXT,`TIPO` TEXT,`EXERCICIO` TEXT)$charset_collate;";
+    $wpdb->query($sql);
     $sql1 = "SELECT EXTRACT(month from DATA),NOME_DETALHE,VALOR,TIPO,EXERCICIO FROM MOVIMENTO_EMPENHOS_RECEITAS WHERE (TIPO LIKE 'RECEITA' OR TIPO LIKE 'PAGAMENTO') AND EXERCICIO LIKE '$ano' AND DATA BETWEEN TO_DATE('01-JAN-$ano','DD-MON-YYYY') AND TO_DATE('31-DEC-$ano','DD-MON-YYYY') ORDER BY 1 ASC;";
     $sql2 =  "INSERT INTO $table_name VALUES " . DAE::oracle2mysql($sql1);
-    $conexao = new mysqli(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
-    $conexao->query($sql2);
+    $wpdb->query($sql2);
+    sleep(3);
 }
+
+if ($wpdb->get_var("SHOW TABLES LIKE '$table_name'") == $table_name) {
 
 //Linhas, BarrasV, Card e Pizza (RECEITA/PAGAMENTO) *******************************************
 
@@ -462,5 +464,7 @@ foreach ($list_mov_pagamentos as $val) {
     </section>
 
 </main><!-- End #main -->
+
+<?php } ?>
 
 <?php get_footer(); ?>
