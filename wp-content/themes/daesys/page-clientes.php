@@ -247,7 +247,7 @@ foreach ($array_val[2] as $key => $val) {
         <div class="card">
 
           <div class="card-body">
-            <h5 class="card-title">Clientes Ativos <span>(2021 - <?php echo date('Y'); ?>)</span></h5>
+            <h5 class="card-title">Clientes Novos <span>(2021 - <?php echo date('Y'); ?>)</span></h5>
 
             <!-- Line Chart -->
             <div id="reportsChart"></div>
@@ -261,7 +261,7 @@ foreach ($array_val[2] as $key => $val) {
         <div class="card">
 
           <div class="card-body">
-            <h5 class="card-title">Clientes Ativos <span>(2021 - <?php echo date('Y'); ?>)</span></h5>
+            <h5 class="card-title">Clientes Novos <span>(2021 - <?php echo date('Y'); ?>)</span></h5>
 
             <!-- Column Chart -->
             <div id="columnChart"></div>
