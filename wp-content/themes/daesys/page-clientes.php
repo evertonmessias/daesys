@@ -2,54 +2,11 @@
 
 <?php
 
-global $wpdb;
+$table_name = 'wp_clientes_ativos';
 
-$array_nome_meses = ["janeiro","fevereiro","marco","abril","maio","junho","julho","agosto","setembro","outubro","novembro","dezembro"];
+$array_nome_meses = ["janeiro", "fevereiro", "marco", "abril", "maio", "junho", "julho", "agosto", "setembro", "outubro", "novembro", "dezembro"];
 
-$array_datai = [
-    '01.01.2023',
-    '01.02.2023',
-    '01.03.2023',
-    '01.04.2023',
-    '01.05.2023',
-    '01.06.2023',
-    '01.07.2023',
-    '01.08.2023',
-    '01.09.2023',
-    '01.10.2023',
-    '01.11.2023',
-    '01.12.2023'
-];
-
-//mes atual
-
-$table_name = $wpdb->prefix . 'clientes_ativos';
-
-$i=intval(date('m'))-1;
-
-$datai = $array_datai[$i];
-$dataf = date('d.m.Y');
-$mes = $array_nome_meses[$i];
-
-$conn = DAE::firebird();
-
-$sql1 = "EXECUTE PROCEDURE PR_LISTA_LIGACOES('$datai','$dataf')";
-
-$conn->exec($sql1);
-
-$sql2 = "SELECT COUNT(LIG_L_EST) FROM LIGACOES WHERE LIG_L_EST LIKE 'T';";
-
-$query = $conn->query($sql2)->fetchAll(PDO::FETCH_ASSOC);
-
-$clientes_ativos_mes_atual = number_format($query[0]['COUNT'], 0, '', '.');
-
-$sql3 = "UPDATE $table_name SET $mes = $clientes_ativos_mes_atual WHERE `ano` = 2023;";
-
-$wpdb->query($sql3);
-
-$total_clientes_ativos = get_post_meta($post->ID, 'total_clientes_ativos_1990_2020', true);
-
-//tabelas 2021, 2022, 2023
+//tabelas 2021, ...
 
 $list_mes = list_data("SELECT janeiro,fevereiro,marco,abril,maio,junho,julho,agosto,setembro,outubro,novembro,dezembro from $table_name;");
 
@@ -57,27 +14,36 @@ $string_meses = "";
 $string_clientes_2021 = "";
 $string_clientes_2022 = "";
 $array_val = [];
+$clientes_ativos_ano_atual = 0;
+$clientes_ativos_total = 0;
 
 foreach ($list_mes as $key => $val) {
-    $array_val[] = $val;
+  $array_val[] = $val;
 }
+
 foreach ($array_val[0] as $key => $val) {
-    $string_meses .= '"' . $key . '",';
-    $string_clientes_2021 .= $val . ',';
+  $string_meses .= '"' . $key . '",';
+  $string_clientes_2021 .= $val . ',';
+  $clientes_ativos_total += $val;
 }
 
 foreach ($array_val[1] as $key => $val) {
-    $string_clientes_2022 .= $val . ',';
+  $string_clientes_2022 .= $val . ',';
+  $clientes_ativos_total += $val;
 }
 
 foreach ($array_val[2] as $key => $val) {
   $string_clientes_2023 .= $val . ',';
+  $clientes_ativos_total += $val;
+  $clientes_ativos_ano_atual += $val;
 }
+
+$total_clientes_ativos = intval(get_post_meta($post->ID, 'total_clientes_ativos_1990_2020', true)) + $clientes_ativos_total;
 
 ?>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
 <script>
-
   window.onload = () => {
 
     const reports1 = {
@@ -90,8 +56,7 @@ foreach ($array_val[2] as $key => $val) {
       }, {
         name: '2023',
         data: [<?php echo $string_clientes_2023; ?>]
-      }
-    ],
+      }],
       chart: {
         height: 350,
         type: 'area',
@@ -102,7 +67,7 @@ foreach ($array_val[2] as $key => $val) {
       markers: {
         size: 4
       },
-      colors: ['#0000FF', '#00FF00','#FF00FF'],
+      colors: ['#0000FF', '#00FF00', '#FF00FF'],
       fill: {
         type: "gradient",
         gradient: {
@@ -141,8 +106,7 @@ foreach ($array_val[2] as $key => $val) {
       }, {
         name: '2023',
         data: [<?php echo $string_clientes_2023; ?>],
-      }    
-    ],
+      }],
       chart: {
         type: 'bar',
         height: 350
@@ -183,6 +147,22 @@ foreach ($array_val[2] as $key => $val) {
 
     const columnChart = new ApexCharts(document.querySelector("#columnChart"), reports2).render();
 
+    //BTN-UPDATECLI
+    document.querySelector('#btn-updatecli').addEventListener('click', () => {
+            loadPage();
+            $.ajax({
+                url: '/updatecli',
+                type: 'POST',
+                data: {
+                    'intervalo': 'ano'
+                },
+                success: (res) => {
+                    console.log(res);
+                    window.location.reload();
+                }
+            });
+        });
+
   }
 </script>
 
@@ -205,14 +185,14 @@ foreach ($array_val[2] as $key => $val) {
         <div class="card info-card revenue-card">
 
           <div class="card-body">
-            <h5 class="card-title">Clientes Ativos <span>(1990 - 2020)</span></h5>
+            <h5 class="card-title">Clientes Ativos <span>(1990 - <?php echo date('Y'); ?>)</span></h5>
 
             <div class="d-flex align-items-center">
               <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
                 <i class="bi bi-person-check"></i>
               </div>
               <div class="ps-3">
-                <h6><?php echo $total_clientes_ativos; ?></h6>
+                <h6><?php echo number_format($total_clientes_ativos,0,'','.'); ?></h6>
               </div>
             </div>
           </div>
@@ -226,22 +206,25 @@ foreach ($array_val[2] as $key => $val) {
         <div class="card info-card revenue-card">
 
           <div class="card-body">
-            <h5 class="card-title">Clientes Novos do Mês <span>(<?php echo $array_nome_meses[$i]; ?>/2023)</span></h5>
+            <h5 class="card-title">Clientes Novos do Ano <span>(<?php echo date('Y'); ?>)</span></h5>
 
             <div class="d-flex align-items-center">
               <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
                 <i class="bi bi-person-check"></i>
               </div>
               <div class="ps-3">
-                <h6><?php echo $clientes_ativos_mes_atual; ?></h6>
+                <h6><?php echo number_format($clientes_ativos_ano_atual, 0, '', '.'); ?></h6>
               </div>
             </div>
           </div>
 
         </div>
       </div><!-- End Revenue Card -->
-      
 
+    </div>
+
+
+    <div class="row">
       <!-- Reports -->
       <div class="col-12">
         <div class="card">
@@ -270,8 +253,18 @@ foreach ($array_val[2] as $key => $val) {
 
         </div>
       </div><!-- End Reports -->
+    </div>
+
+    <div class="row">
+
+      <div class="col-lg-12">
+        <form method="POST">
+          <input type="bytton" value="Sincronizar" title="Sincronizar com ASSESSOR" id="btn-updatecli" class="btn btn-secondary btn-update">
+        </form>
+      </div>
 
     </div>
+
   </section>
 
 </main><!-- End #main -->

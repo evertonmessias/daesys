@@ -5,5 +5,5 @@ if (isset($_POST['table'])) {
     global $wpdb;
     echo $wpdb->query($sql);
 } else {
-    echo "ERRO";
+    echo "CEBI ERRO";
 }
