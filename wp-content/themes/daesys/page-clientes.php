@@ -67,7 +67,7 @@ $total_clientes_ativos = intval(get_post_meta($post->ID, 'total_clientes_ativos_
       markers: {
         size: 4
       },
-      colors: ['#0000FF', '#00FF00', '#FF00FF'],
+      colors: ['#0000FF', '#00FF00', '#00FFFF'],
       fill: {
         type: "gradient",
         gradient: {
@@ -137,10 +137,10 @@ $total_clientes_ativos = intval(get_post_meta($post->ID, 'total_clientes_ativos_
       markers: {
         size: 4
       },
-      colors: ['#0000FF', '#00FF00', '#FF00FF'],
+      colors: ['#0000FF', '#00FF00', '#00FFFF'],
       fill: {
         opacity: 1,
-        colors: ['#0000FF', '#00FF00', '#FF00FF']
+        colors: ['#0000FF', '#00FF00', '#00FFFF']
       }
 
     }
