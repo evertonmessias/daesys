@@ -49,7 +49,7 @@ $wpdb->query($sql3);
 
 $total_clientes_ativos = get_post_meta($post->ID, 'total_clientes_ativos_1990_2020', true);
 
-//tabelas 2021 e 2022
+//tabelas 2021, 2022, 2023
 
 $list_mes = list_data("SELECT janeiro,fevereiro,marco,abril,maio,junho,julho,agosto,setembro,outubro,novembro,dezembro from $table_name;");
 
@@ -70,6 +70,10 @@ foreach ($array_val[1] as $key => $val) {
     $string_clientes_2022 .= $val . ',';
 }
 
+foreach ($array_val[2] as $key => $val) {
+  $string_clientes_2023 .= $val . ',';
+}
+
 ?>
 
 <script>
@@ -83,7 +87,11 @@ foreach ($array_val[1] as $key => $val) {
       }, {
         name: '2022',
         data: [<?php echo $string_clientes_2022; ?>]
-      }],
+      }, {
+        name: '2023',
+        data: [<?php echo $string_clientes_2023; ?>]
+      }
+    ],
       chart: {
         height: 350,
         type: 'area',
@@ -94,7 +102,7 @@ foreach ($array_val[1] as $key => $val) {
       markers: {
         size: 4
       },
-      colors: ['#0000FF', '#00FF00'],
+      colors: ['#0000FF', '#00FF00','#FF00FF'],
       fill: {
         type: "gradient",
         gradient: {
@@ -130,7 +138,11 @@ foreach ($array_val[1] as $key => $val) {
       }, {
         name: '2022',
         data: [<?php echo $string_clientes_2022; ?>],
-      }],
+      }, {
+        name: '2023',
+        data: [<?php echo $string_clientes_2023; ?>],
+      }    
+    ],
       chart: {
         type: 'bar',
         height: 350
@@ -161,10 +173,10 @@ foreach ($array_val[1] as $key => $val) {
       markers: {
         size: 4
       },
-      colors: ['#0000FF', '#00FF00'],
+      colors: ['#0000FF', '#00FF00', '#FF00FF'],
       fill: {
         opacity: 1,
-        colors: ['#0000FF', '#00FF00']
+        colors: ['#0000FF', '#00FF00', '#FF00FF']
       }
 
     }

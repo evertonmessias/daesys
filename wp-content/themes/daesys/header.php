@@ -165,8 +165,8 @@ if ($_SERVER['REMOTE_ADDR'] != "143.106.16.153" && $_SERVER['REMOTE_ADDR'] != "1
                         </li>
                     <?php } ?>
 
-                    <li class="nav-item">
-                        <a onclick="loadPage()" class="nav-link todos" href="/todos">
+                    <li>
+                        <a onclick="loadPage()" class="todos" href="/todos">
                             <i class="bi bi-circle"></i><span>Todos</span>
                         </a>
                     </li>
@@ -181,8 +181,8 @@ if ($_SERVER['REMOTE_ADDR'] != "143.106.16.153" && $_SERVER['REMOTE_ADDR'] != "1
                     <i class="bi bi-grid"></i><span>ASSESSOR - DAE AME</span><i class="bi bi-chevron-down ms-auto"></i>
                 </a>
                 <ul id="charts-nav-assessor" class="nav-content collapse " data-bs-parent="#sidebar-nav">
-                    <li class="nav-item">
-                        <a onclick="loadPage()" class="nav-link clientes" href="/clientes">
+                    <li>
+                        <a onclick="loadPage()" class="clientes" href="/clientes">
                             <i class="bi bi-circle"></i><span>Clientes Ativos</span>
                         </a>
                     </li>
