@@ -150,11 +150,13 @@ if ($_SERVER['REMOTE_ADDR'] != "143.106.16.153" && $_SERVER['REMOTE_ADDR'] != "1
                 </a>
             </li>
 
+
+            <!-- CEBI Nav -->
             <li class="nav-item">
-                <a class="nav-link collapsed" data-bs-target="#charts-nav" data-bs-toggle="collapse" href="#">
+                <a class="nav-link collapsed" data-bs-target="#charts-nav-cebi" data-bs-toggle="collapse" href="#">
                     <i class="bi bi-grid"></i><span>CEBI - DAE AME</span><i class="bi bi-chevron-down ms-auto"></i>
                 </a>
-                <ul id="charts-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+                <ul id="charts-nav-cebi" class="nav-content collapse " data-bs-parent="#sidebar-nav">
                     <?php for ($i = date('Y'); $i > 2013; $i--) { ?>
                         <li>
                             <a onclick="loadPage()" class="ano<?php echo $i; ?>" href="/ano<?php echo $i; ?>">
@@ -170,8 +172,26 @@ if ($_SERVER['REMOTE_ADDR'] != "143.106.16.153" && $_SERVER['REMOTE_ADDR'] != "1
                     </li>
 
                 </ul>
-            </li><!-- End Charts Nav -->
+            </li><!-- End CEBI Nav -->
 
+
+            <!-- ASSESSOR Nav -->
+            <li class="nav-item">
+                <a class="nav-link collapsed" data-bs-target="#charts-nav-assessor" data-bs-toggle="collapse" href="#">
+                    <i class="bi bi-grid"></i><span>ASSESSOR - DAE AME</span><i class="bi bi-chevron-down ms-auto"></i>
+                </a>
+                <ul id="charts-nav-assessor" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+                    <li class="nav-item">
+                        <a onclick="loadPage()" class="nav-link clientes" href="/clientes">
+                            <i class="bi bi-circle"></i><span>Clientes Ativos</span>
+                        </a>
+                    </li>
+
+                </ul>
+            </li><!-- End ASSESSOR Nav -->
+
+
+            <!-- SNIS Nav -->
             <li class="nav-item">
                 <a onclick="loadPage()" class="nav-link " href="/snis">
                     <i class="bi bi-bar-chart"></i>

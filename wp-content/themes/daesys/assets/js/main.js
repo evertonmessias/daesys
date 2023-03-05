@@ -79,8 +79,12 @@
   let pageurl = window.location.href.split('/');
   var er = /ano\d{4}/ig;
   if(er.test(pageurl[3]) || pageurl[3] == 'todos'){
-    document.querySelector("#charts-nav").classList.add('show');
-    document.querySelector("#charts-nav ."+pageurl[3]).classList.add('active');
+    document.querySelector("#charts-nav-cebi").classList.add('show');
+    document.querySelector("#charts-nav-cebi ."+pageurl[3]).classList.add('active');
+  }
+  if(pageurl[3] == 'clientes'){
+    document.querySelector("#charts-nav-assessor").classList.add('show');
+    document.querySelector("#charts-nav-assessor ."+pageurl[3]).classList.add('active');
   }
 
   /**
