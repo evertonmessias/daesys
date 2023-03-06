@@ -38,7 +38,7 @@ foreach ($array_val[2] as $key => $val) {
   $clientes_ativos_ano_atual += $val;
 }
 
-$total_clientes_ativos = intval(get_post_meta($post->ID, 'total_clientes_ativos_1990_2020', true)) + $clientes_ativos_total;
+$total_clientes_ativos = intval(get_post_meta($post->ID, 'total_clientes_ativos_ate_2020', true)) + $clientes_ativos_total;
 
 ?>
 
@@ -185,7 +185,7 @@ $total_clientes_ativos = intval(get_post_meta($post->ID, 'total_clientes_ativos_
         <div class="card info-card revenue-card">
 
           <div class="card-body">
-            <h5 class="card-title">Clientes Ativos <span>(1990 - <?php echo date('Y'); ?>)</span></h5>
+            <h5 class="card-title">Total de Clientes Ativos <span>(até <?php echo date('Y'); ?>)</span></h5>
 
             <div class="d-flex align-items-center">
               <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
@@ -206,7 +206,7 @@ $total_clientes_ativos = intval(get_post_meta($post->ID, 'total_clientes_ativos_
         <div class="card info-card revenue-card">
 
           <div class="card-body">
-            <h5 class="card-title">Clientes Novos do Ano <span>(<?php echo date('Y'); ?>)</span></h5>
+            <h5 class="card-title">Clientes Novos no Ano <span>(de <?php echo date('Y'); ?>)</span></h5>
 
             <div class="d-flex align-items-center">
               <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
